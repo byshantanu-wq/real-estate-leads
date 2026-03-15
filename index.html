@@ -265,19 +265,41 @@
     }
 
     .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.06);
-      color: var(--white);
-      outline: none;
-      transition: border-color 0.25s ease, background 0.25s ease;
-    }
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(17, 25, 40, 0.88);
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  font-size: 1rem;
+}
 
-    .form-group input::placeholder,
+.form-group select {
+  cursor: pointer;
+  padding-right: 46px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #d6a85f 50%),
+    linear-gradient(135deg, #d6a85f 50%, transparent 50%);
+  background-position:
+    calc(100% - 22px) calc(50% - 3px),
+    calc(100% - 16px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.form-group select option {
+  background: #162033;
+  color: #ffffff;
+}
+
+.form-group input::placeholder,
     .form-group textarea::placeholder {
       color: #bfd0e6;
     }
@@ -780,7 +802,7 @@
           </div>
           <div class="form-group">
             <select id="budget" required>
-              <option value="">Select your budget</option>
+              <option value="" disabled selected hidden>Select your budget</option>
               <option>₹50L - ₹75L</option>
               <option>₹75L - ₹1Cr</option>
               <option>₹1Cr - ₹2Cr</option>
@@ -1059,28 +1081,22 @@
       if (e.key === 'Escape') closeGallery();
     });
 
-    leadForm.addEventListener("submit", async function(e){
-  e.preventDefault();
+    leadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const budget = document.getElementById('budget').value;
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const budget = document.getElementById("budget").value;
+      if (!name || !phone || !budget) {
+        formMessage.textContent = 'Please fill in all required fields.';
+        formMessage.style.color = '#ffb4b4';
+        return;
+      }
 
-  const data = {
-    name: name,
-    phone: phone,
-    budget: budget
-  };
-
-  await fetch("https://script.google.com/macros/s/AKfycbyE9S1-Okouyd4aAfrm9i3CvKVlVilnYjcH0gjJ6RIeuP46DpXo1Y9tVob2JHwCnMoH/exec", {
-    method: "POST",
-    body: JSON.stringify(data)
-  });
-
-  alert("Lead submitted successfully!");
-
-  leadForm.reset();
-});
+      formMessage.textContent = `Thanks ${name}! Our advisor will contact you soon at ${phone}.`;
+      formMessage.style.color = '#9cf2c6';
+      leadForm.reset();
+    });
   </script>
 </body>
 </html>
