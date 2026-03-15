@@ -1071,32 +1071,33 @@
       if (e.key === 'Escape') closeGallery();
     });
 
-    leadForm.addEventListener("submit", async function(e) {
-      e.preventDefault();
+    leadForm.addEventListener("submit", function(e) {
+  e.preventDefault();
 
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
-      const budget = document.getElementById("budget").value;
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const budget = document.getElementById("budget").value;
 
-      const data = new URLSearchParams({
-        name: name,
-        phone: phone,
-        budget: budget
-      });
+  const data = new URLSearchParams({
+    name: name,
+    phone: phone,
+    budget: budget
+  });
 
-      await fetch("https://script.google.com/macros/s/AKfycbyVHxMh_pojviVfmL2RVezSItF549y-KuLEwmfSPMrft-gbIbMYWGNXy5gqNz57Uyry/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: data.toString()
-      });
+  formMessage.textContent = "Thank you! Your request has been submitted.";
+  formMessage.style.color = "#9cf2c6";
 
-      formMessage.textContent = "Thank you! Our property advisor will contact you within 24 hours.";
-      formMessage.style.color = "#9cf2c6";
-      leadForm.reset();
-    });
+  fetch("https://script.google.com/macros/s/AKfycbyVHxMh_pojviVfmL2RVezSItF549y-KuLEwmfSPMrft-gbIbMYWGNXy5gqNz57Uyry/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: data.toString()
+  });
+
+  leadForm.reset();
+});
   </script>
 </body>
 </html>
