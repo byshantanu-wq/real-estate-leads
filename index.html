@@ -1081,22 +1081,40 @@
       if (e.key === 'Escape') closeGallery();
     });
 
-    leadForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const budget = document.getElementById('budget').value;
+    leadForm.addEventListener("submit", async function(e) {
+  e.preventDefault();
 
-      if (!name || !phone || !budget) {
-        formMessage.textContent = 'Please fill in all required fields.';
-        formMessage.style.color = '#ffb4b4';
-        return;
-      }
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const budget = document.getElementById("budget").value;
 
-      formMessage.textContent = `Thanks ${name}! Our advisor will contact you soon at ${phone}.`;
-      formMessage.style.color = '#9cf2c6';
-      leadForm.reset();
+  if (!name || !phone || !budget) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  const formData = new URLSearchParams();
+  formData.append("name", name);
+  formData.append("phone", phone);
+  formData.append("budget", budget);
+
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbzHdz1njnliWvOCCT0qlUbX-yFeKm2CiOlTU6zfcdMA8uzRteLrO802Bg03dL4WsVqu/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formData.toString()
     });
+
+    alert("Lead submitted successfully!");
+    leadForm.reset();
+  } catch (error) {
+    alert("Error submitting lead.");
+    console.error(error);
+  }
+});
   </script>
 </body>
 </html>
