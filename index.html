@@ -1109,7 +1109,8 @@
       body: formBody.toString()
     });
 
-    alert("Lead submitted successfully!");
+    formMessage.textContent = "✅ Thank you! Our property advisor will contact you shortly.";
+formMessage.style.color = "#9cf2c6";
     leadForm.reset();
   } catch (error) {
     console.error("Submit error:", error);
