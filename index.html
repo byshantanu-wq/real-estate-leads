@@ -1085,9 +1085,15 @@ projects like Lodha, Runwal, and Hiranandani across Thane.
     leadForm.addEventListener("submit", function(e) {
   e.preventDefault();
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
   const budget = document.getElementById("budget").value;
+
+  if (!/^[6-9][0-9]{9}$/.test(phone)) {
+    formMessage.textContent = "Please enter a valid 10-digit Indian mobile number.";
+    formMessage.style.color = "#ff8a8a";
+    return;
+  }
 
   const data = new URLSearchParams({
     name: name,
